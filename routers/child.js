@@ -33,7 +33,12 @@ childRouter                 //all paths will begin from child
             throw new ValidationError('Could not find a child with given ID')
         }
         const gift = req.body.giftId === '' ? null : await GiftRecord.getOne(req.body.giftId);
-        // console.log(gift);
+        if(gift) {
+            if(gift.count <= await gift.countGivenGifts()) {
+                throw new ValidationError('There is to little of this gift')
+
+            }
+        }
 
         child.giftId = gift === null ? null : gift.id;
         await child.update();

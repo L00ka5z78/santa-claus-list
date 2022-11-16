@@ -11,6 +11,7 @@ class ChildRecord {
         }
         this.id = obj.id;
         this.name = obj.name;
+        this.giftId = obj.giftId
     }
 
     async insert() {
