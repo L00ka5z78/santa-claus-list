@@ -1,4 +1,5 @@
 const express = require('express');
+require('express-async-errors');
 const methodOverride = require("method-override");
 const {engine} = require("express-handlebars");
 const {handlebarsHelpers} = require("./utils/handlebar-helpers");
@@ -6,7 +7,7 @@ const {homeRouter} = require("./routers/home");
 const {childRouter} = require("./routers/child");
 const {giftRouter} = require("./routers/gift");
 const {handleError} = require("./utils/error");
-
+require('./utils/db');
 
 
 const app = express();
@@ -25,15 +26,8 @@ app.engine('.hbs', engine({
 app.set('view engine', '.hbs');
 
 app.use('/', homeRouter);
-
-
-app.get('/child', (req, res) => {
-    res.render('children/children-list')
-})
-
-
-// app.use('/child', childRouter);
-// app.use('/gift', giftRouter);
+app.use('/child', childRouter);
+app.use('/gift', giftRouter);
 
 app.use(handleError);
 
